@@ -113,9 +113,11 @@ def _generate_tests(files: list[dict]) -> list[dict]:
             tests += [
                 {"name": f"{action}_Returns_View",
                  "desc": f"{http_method} /{action} returns a ViewResult",
+                 "expl": f"Đảm bảo Action {action} () phản hồi đúng giao diện cho người dùng thay vì lỗi 500 hoặc dữ liệu thô.",
                  "kind": "unit", "pass": None},
                 {"name": f"{action}_ModelState_Valid",
                  "desc": f"ModelState is valid for {action}",
+                 "expl": f"Kiểm tra xem dữ liệu submit lên {action} có thỏa mãn các Validation Rules (Required, StringLength...) trước khi xử lý không.",
                  "kind": "unit", "pass": None},
             ]
 
@@ -123,17 +125,24 @@ def _generate_tests(files: list[dict]) -> list[dict]:
     for f in files:
         content, path = f.get("content", ""), f.get("path", "")
         if not path.endswith(".cs"): continue
+        name = os.path.basename(path)
         bal = content.count("{") - content.count("}")
         tests.append({
-            "name": f"{os.path.basename(path)}_BraceBalance",
+            "name": f"{name}_BraceBalance",
             "desc": "Curly braces are balanced (compilation prerequisite)",
+            "expl": "Kiểm tra dấu ngoặc nhọn `{ }` trong code có mở/đóng đầy đủ hay không. Nếu thiếu, code sẽ không thể biên dịch.",
             "kind": "compatibility",
             "pass": bal == 0,
         })
         has_ns = bool(re.search(r"namespace\s+\S+", content))
+        if name == "Program.cs":
+            # Program.cs in modern .NET Core uses Top-level statements, so namespace isn't required
+            has_ns = True
+            
         tests.append({
-            "name": f"{os.path.basename(path)}_HasNamespace",
+            "name": f"{name}_HasNamespace",
             "desc": "File declares a namespace",
+            "expl": f"Đảm bảo file {name} có khai báo namespace hợp lệ (hoặc là Top-level script), tránh lỗi xung đột class khi .NET build project.",
             "kind": "structure",
             "pass": has_ns,
         })
@@ -235,16 +244,17 @@ def generate_report(module_name: str, files: list[dict], qa_result: dict) -> str
     def test_rows():
         rows = []
         for t in tests:
-            if t["pass"] is True:    badge = '<span style="background:#14532d;color:#86efac;padding:2px 8px;border-radius:4px;font-size:11px">✅ PASS</span>'
-            elif t["pass"] is False: badge = '<span style="background:#450a0a;color:#fca5a5;padding:2px 8px;border-radius:4px;font-size:11px">❌ FAIL</span>'
-            else:                    badge = '<span style="background:#1c1917;color:#a8a29e;padding:2px 8px;border-radius:4px;font-size:11px">⏳ PENDING</span>'
+            if t["pass"] is True:    badge = '<span style="background:#14532d;color:#86efac;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">✅ PASS</span>'
+            elif t["pass"] is False: badge = '<span style="background:#450a0a;color:#fca5a5;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">❌ FAIL</span>'
+            else:                    badge = '<span style="background:#1c1917;color:#a8a29e;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">⏳ PENDING</span>'
             kind_color = {"unit":"#818cf8","integration":"#38bdf8","compatibility":"#34d399","structure":"#fb923c"}.get(t["kind"],"#6b7280")
             rows.append(f"""
             <tr style="border-bottom:1px solid #1f2937">
-              <td style="padding:9px 12px;font-family:monospace;font-size:12px;color:#e5e7eb">{t['name']}</td>
-              <td style="padding:9px 12px;font-size:12px;color:#9ca3af">{t['desc']}</td>
-              <td style="padding:9px 12px;text-align:center"><span style="color:{kind_color};font-size:11px;font-weight:600">{t['kind'].upper()}</span></td>
-              <td style="padding:9px 12px;text-align:center">{badge}</td>
+              <td style="padding:12px 12px;font-family:monospace;font-size:13px;color:#e5e7eb;font-weight:600">{t['name']}</td>
+              <td style="padding:12px 12px;font-size:13px;color:#9ca3af">{t['desc']}</td>
+              <td style="padding:12px 12px;font-size:12px;color:#a78bfa;font-style:italic;max-width:300px;line-height:1.4">{t.get('expl', '')}</td>
+              <td style="padding:12px 12px;text-align:center"><span style="color:{kind_color};font-size:11px;font-weight:700;letter-spacing:0.5px">{t['kind'].upper()}</span></td>
+              <td style="padding:12px 12px;text-align:center">{badge}</td>
             </tr>""")
         return "".join(rows)
 
@@ -373,19 +383,20 @@ def generate_report(module_name: str, files: list[dict], qa_result: dict) -> str
 
   <!-- Test cases -->
   <div class="card" style="margin-bottom:24px">
-    <h2 style="margin-bottom:10px">Test Cases
+    <h2 style="margin-bottom:10px">Generated Test Cases
       <span style="font-size:12px;font-weight:400;margin-left:10px">
         <span style="color:#10b981">{passed_tests} passed</span> ·
         <span style="color:#ef4444">{failed_tests} failed</span> ·
         <span style="color:#6b7280">{pending_tests} pending</span>
       </span>
     </h2>
-    <table>
+    <table style="table-layout:fixed; width:100%">
       <thead><tr>
-        <th>Test Name</th>
-        <th>Description</th>
-        <th style="text-align:center;width:100px">Type</th>
-        <th style="text-align:center;width:100px">Result</th>
+        <th style="width:25%">Test Name</th>
+        <th style="width:25%">Description</th>
+        <th style="width:30%">Ý nghĩa (Explanation)</th>
+        <th style="text-align:center;width:10%">Type</th>
+        <th style="text-align:center;width:10%">Result</th>
       </tr></thead>
       <tbody>{test_rows()}</tbody>
     </table>
