@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Migration Report — FRM_EMP.FRM</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0d1117;color:#e6edf3;font-family:'Segoe UI',system-ui,sans-serif;line-height:1.5}
+  h2{font-size:14px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px}
+  table{width:100%;border-collapse:collapse}
+  th{text-align:left;padding:9px 12px;font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid #21262d}
+  .card{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:20px;margin-bottom:20px}
+  .badge{display:inline-block;padding:4px 12px;border-radius:6px;font-size:12px;font-weight:700}
+</style>
+</head>
+<body>
+<!-- Header -->
+<div style="background:linear-gradient(135deg,#161b22 0%,#0d1117 100%);border-bottom:1px solid #21262d;padding:28px 40px">
+  <div style="max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between">
+    <div>
+      <div style="font-size:11px;color:#6b7280;margin-bottom:4px;text-transform:uppercase;letter-spacing:.1em">Migration Report</div>
+      <h1 style="font-size:26px;font-weight:800;color:#e6edf3">FRM_EMP.FRM</h1>
+      <div style="font-size:12px;color:#6b7280;margin-top:4px">Generated: 2026-07-15 13:46</div>
+    </div>
+    <div style="text-align:right">
+      <span class="badge" style="background:#10b98122;color:#10b981;font-size:16px;padding:8px 20px">SUCCESS</span>
+      <div style="font-size:13px;color:#6b7280;margin-top:8px">19 file(s) generated</div>
+    </div>
+  </div>
+</div>
+
+<div style="max-width:1200px;margin:0 auto;padding:28px 40px">
+
+  <!-- Summary cards -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px">
+    <div class="card" style="text-align:center"><div style="font-size:32px;font-weight:800;color:#60a5fa">19</div><div style="font-size:12px;color:#6b7280;margin-top:4px">Files Generated</div></div><div class="card" style="text-align:center"><div style="font-size:32px;font-weight:800;color:#a78bfa">63%</div><div style="font-size:12px;color:#6b7280;margin-top:4px">Avg Confidence</div></div><div class="card" style="text-align:center"><div style="font-size:32px;font-weight:800;color:#10b981">12</div><div style="font-size:12px;color:#6b7280;margin-top:4px">Tests Passed</div></div><div class="card" style="text-align:center"><div style="font-size:32px;font-weight:800;color:#34d399">23</div><div style="font-size:12px;color:#6b7280;margin-top:4px">Compat Checks OK</div></div>
+  </div>
+
+  <!-- Charts row -->
+  <div style="display:grid;grid-template-columns:1fr 2fr;gap:20px;margin-bottom:24px">
+    <div class="card" style="display:flex;flex-direction:column;align-items:center">
+      <h2>Overall Confidence</h2>
+      <div style="position:relative;width:200px;height:200px">
+        <canvas id="doughnut"></canvas>
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center">
+          <div style="font-size:32px;font-weight:800;color:#a78bfa">63%</div>
+          <div style="font-size:11px;color:#6b7280">confidence</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Per-Category Confidence</h2>
+      <canvas id="barChart" height="120"></canvas>
+    </div>
+  </div>
+
+  <!-- Confidence table -->
+  <div class="card" style="margin-bottom:24px">
+    <h2>Confidence Scores</h2>
+    <table>
+      <thead><tr>
+        <th style="width:140px">Category</th>
+        <th>Score</th>
+        <th>Files</th>
+        <th>Notes</th>
+      </tr></thead>
+      <tbody>
+        
+        <tr>
+          <td style="padding:10px 12px;font-weight:600;color:#60a5fa">Controller</td>
+          <td style="padding:10px 12px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="background:#1f2937;border-radius:6px;height:10px;flex:1;">
+          <div style="background:#60a5fa;height:10px;border-radius:6px;width:88%;transition:width 0.6s;"></div></div>
+              <span style="font-size:18px;font-weight:700;color:#60a5fa;min-width:48px">88%</span>
+            </div>
+          </td>
+          <td style="padding:10px 12px;color:#9ca3af;font-size:12px">HomeController.cs, FRM_EMP.FRMController.cs</td>
+          <td style="padding:10px 12px;color:#6b7280;font-size:11px">Namespace declared; Class: HomeController; Namespace declared; Class: FRM_EMPController</td>
+        </tr>
+        
+        <tr>
+          <td style="padding:10px 12px;font-weight:600;color:#34d399">View</td>
+          <td style="padding:10px 12px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="background:#1f2937;border-radius:6px;height:10px;flex:1;">
+          <div style="background:#34d399;height:10px;border-radius:6px;width:28%;transition:width 0.6s;"></div></div>
+              <span style="font-size:18px;font-weight:700;color:#34d399;min-width:48px">28%</span>
+            </div>
+          </td>
+          <td style="padding:10px 12px;color:#9ca3af;font-size:12px">_ViewImports.cshtml, _ViewStart.cshtml, _Layout.cshtml, Index.cshtml, Index.cshtml</td>
+          <td style="padding:10px 12px;color:#6b7280;font-size:11px">Razor code block present; ViewBag/ViewData used; ViewBag/ViewData used; Razor code block present; @model directive present; Form element found</td>
+        </tr>
+        
+        <tr>
+          <td style="padding:10px 12px;font-weight:600;color:#a78bfa">ViewModel</td>
+          <td style="padding:10px 12px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="background:#1f2937;border-radius:6px;height:10px;flex:1;">
+          <div style="background:#a78bfa;height:10px;border-radius:6px;width:58%;transition:width 0.6s;"></div></div>
+              <span style="font-size:18px;font-weight:700;color:#a78bfa;min-width:48px">58%</span>
+            </div>
+          </td>
+          <td style="padding:10px 12px;color:#9ca3af;font-size:12px">.gitkeep, FRM_EMP.FRMViewModel.cs</td>
+          <td style="padding:10px 12px;color:#6b7280;font-size:11px">Braces balanced; Namespace declared; Class: FRM_EMPViewModel</td>
+        </tr>
+        
+        <tr>
+          <td style="padding:10px 12px;font-weight:600;color:#fbbf24">Interop</td>
+          <td style="padding:10px 12px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="background:#1f2937;border-radius:6px;height:10px;flex:1;">
+          <div style="background:#fbbf24;height:10px;border-radius:6px;width:78%;transition:width 0.6s;"></div></div>
+              <span style="font-size:18px;font-weight:700;color:#fbbf24;min-width:48px">78%</span>
+            </div>
+          </td>
+          <td style="padding:10px 12px;color:#9ca3af;font-size:12px">MigrationService.cs, FRM_EMP.FRMService.cs</td>
+          <td style="padding:10px 12px;color:#6b7280;font-size:11px">Service interface defined; Namespace declared; Namespace declared; 1 method signature(s)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Test cases -->
+  <div class="card" style="margin-bottom:24px">
+    <h2 style="margin-bottom:10px">Generated Test Cases
+      <span style="font-size:12px;font-weight:400;margin-left:10px">
+        <span style="color:#10b981">12 passed</span> ·
+        <span style="color:#ef4444">0 failed</span> ·
+        <span style="color:#6b7280">20 pending</span>
+      </span>
+    </h2>
+    <table style="table-layout:fixed; width:100%">
+      <thead><tr>
+        <th style="width:25%">Test Name</th>
+        <th style="width:25%">Description</th>
+        <th style="width:30%">Ý nghĩa (Explanation)</th>
+        <th style="text-align:center;width:10%">Type</th>
+        <th style="text-align:center;width:10%">Result</th>
+      </tr></thead>
+      <tbody>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:12px 12px;font-family:monospace;font-size:13px;color:#e5e7eb;font-weight:600">Create_Returns_View</td>
+              <td style="padding:12px 12px;font-size:13px;color:#9ca3af">HttpPost /Create returns a ViewResult</td>
+              <td style="padding:12px 12px;font-size:12px;color:#a78bfa;font-style:italic;max-width:300px;line-height:1.4">Đảm bảo Action Create () phản hồi đúng giao diện cho người dùng thay vì lỗi 500 hoặc dữ liệu thô.</td>
+              <td style="padding:12px 12px;text-align:center"><span style="color:#818cf8;font-size:11px;font-weight:700;letter-spacing:0.5px">UNIT</span></td>
+              <td style="padding:12px 12px;text-align:center"><span style="background:#1c1917;color:#a8a29e;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">⏳ PENDING</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:12px 12px;font-family:monospace;font-size:13px;color:#e5e7eb;font-weight:600">Create_ModelState_Valid</td>
+              <td style="padding:12px 12px;font-size:13px;color:#9ca3af">ModelState is valid for Create</td>
+              <td style="padding:12px 12px;font-size:12px;color:#a78bfa;font-style:italic;max-width:300px;line-height:1.4">Kiểm tra xem dữ liệu submit lên Create có thỏa mãn các Validation Rules (Required, StringLength...) trước khi xử lý không.</td>
+              <td style="padding:12px 12px;text-align:center"><span style="color:#818cf8;font-size:11px;font-weight:700;letter-spacing:0.5px">UNIT</span></td>
+              <td style="padding:12px 12px;text-align:center"><span style="background:#1c1917;color:#a8a29e;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">⏳ PENDING</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:12px 12px;font-family:monospace;font-size:13px;color:#e5e7eb;font-weight:600">Create_HappyPath_ValidInput</td>
+              <td style="padding:12px 12px;font-size:13px;color:#9ca3af">Create processes valid input correctly</td>
+              <td style="padding:12px 12px;font-size:12px;color:#a78bfa;font-style:italic;max-width:300px;line-height:1.4">Happy Path (User Case): Giả lập người dùng nhập dữ liệu chuẩn xác, hệ thống tính toán và trả về kết quả hoặc giao diện đúng như mong đợi (VD: Cộng 1+1 phải ra 2).</td>
+              <td style="padding:12px 12px;text-align:center"><span style="color:#818cf8;font-size:11px;font-weight:700;letter-spacing:0.5px">UNIT</span></td>
+              <td style="padding:12px 12px;text-align:center"><span style="background:#1c1917;color:#a8a29e;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">⏳ PENDING</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:12px 12px;font-family:monospace;font-size:13px;color:#e5e7eb;font-weight:600">Create_BadPath_EdgeCaseData</td>
+              <td style="padding:12px 12px;font-size:13px;color:#9ca3af">Create handles edge-case / malformed data</td>
+              <td style="padding:12px 12px;font-size:12px;color:#a78bfa;font-style:italic;max-width:300px;line-height:1.4">Bad Path (User Case): Giả lập người dùng nhập chữ vào ô số, nhập số âm vào ô tiền, hoặc cố tình bỏ trống trường bắt buộc để xem hệ thống có bị hack/lỗi không.</td>
+              <td style="padding:12px 12px;text-align:center"><span style="color:#38bdf8;font-size:11px;font-weight:700;letter-spacing:0.5px">INTEGRATION</span></td>
+              <td style="padding:12px 12px;text-align:center"><span style="background:#1c1917;color:#a8a29e;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">⏳ PENDING</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:12px 12px;font-family:monospace;font-size:13px;color:#e5e7eb;font-weight:600">Read_Returns_View</td>
+              <td style="padding:12px 12px;font-size:13px;color:#9ca3af">HttpPost /Read returns a ViewResult</td>
+              <td style="padding:12px 12px;font-size:12px;color:#a78bfa;font-style:italic;max-width:300px;line-height:1.4">Đảm bảo Action Read () phản hồi đúng giao diện cho người dùng thay vì lỗi 500 hoặc dữ liệu thô.</td>
+              <td style="padding:12px 12px;text-align:center"><span style="color:#818cf8;font-size:11px;font-weight:700;letter-spacing:0.5px">UNIT</span></td>
+              <td style="padding:12px 12px;text-align:center"><span style="background:#1c1917;color:#a8a29e;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">⏳ PENDING</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:12px 12px;font-family:monospace;font-size:13px;color:#e5e7eb;font-weight:600">Read_ModelState_Valid</td>
+              <td style="padding:12px 12px;font-size:13px;color:#9ca3af">ModelState is valid for Read</td>
+              <td style="padding:12px 12px;font-size:12px;color:#a78bfa;font-style:italic;max-width:300px;line-height:1.4">Kiểm tra xem dữ liệu submit lên Read có thỏa mãn các Validation Rules (Required, StringLength...) trước khi xử lý không.</td>
+              <td style="padding:12px 12px;text-align:center"><span style="color:#818cf8;font-size:11px;font-weight:700;letter-spacing:0.5px">UNIT</span></td>
+              <td style="padding:12px 12px;text-align:center"><span style="background:#1c1917;color:#a8a29e;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">⏳ PENDING</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:12px 12px;font-family:monospace;font-size:13px;color:#e5e7eb;font-weight:600">Read_HappyPath_ValidInput</td>
+              <td style="padding:12px 12px;font-size:13px;color:#9ca3af">Read processes valid input correctly</td>
+              <td style="padding:12px 12px;font-size:12px;color:#a78bfa;font-style:italic;max-width:300px;line-height:1.4">Happy Path (User Case): Giả lập người dùng nhập dữ liệu chuẩn xác, hệ thống tính toán và trả về kết quả hoặc giao diện đúng như mong đợi (VD: Cộng 1+1 phải ra 2).</td>
+              <td style="padding:12px 12px;text-align:center"><span style="color:#818cf8;font-size:11px;font-weight:700;letter-spacing:0.5px">UNIT</span></td>
+              <td style="padding:12px 12px;text-align:center"><span style="background:#1c1917;color:#a8a29e;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">⏳ PENDING</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:12px 12px;font-family:monospace;font-size:13px;color:#e5e7eb;font-weight:600">Read_BadPath_EdgeCaseData</td>
+              <td style="padding:12px 12px;font-size:13px;color:#9ca3af">Read handles edge-case / malformed data</td>
+              <td style="padding:12px 12px;font-size:12px;color:#a78bfa;font-style:italic;max-width:300px;line-height:1.4">Bad Path (User Case): Giả lập người dùng nhập chữ vào ô số, nhập số âm vào ô tiền, hoặc cố tình bỏ trống trường bắt buộc để xem hệ thống có bị hack/lỗi không.</td>
+              <td style="padding:12px 12px;text-align:center"><span style="color:#38bdf8;font-size:11px;font-weight:700;letter-spacing:0.5px">INTEGRATION</span></td>
+              <td style="padding:12px 12px;text-align:center"><span style="background:#1c1917;color:#a8a29e;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">⏳ PENDING</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:12px 12px;font-family:monospace;font-size:13px;color:#e5e7eb;font-weight:600">Update_Returns_View</td>
+              <td style="padding:12px 12px;font-size:13px;color:#9ca3af">HttpPost /Update returns a ViewResult</td>
+              <td style="padding:12px 12px;font-size:12px;color:#a78bfa;font-style:italic;max-width:300px;line-height:1.4">Đảm bảo Action Update () phản hồi đúng giao diện cho người dùng thay vì lỗi 500 hoặc dữ liệu thô.</td>
+              <td style="padding:12px 12px;text-align:center"><span style="color:#818cf8;font-size:11px;font-weight:700;letter-spacing:0.5px">UNIT</span></td>
+              <td style="padding:12px 12px;text-align:center"><span style="background:#1c1917;color:#a8a29e;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">⏳ PENDING</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:12px 12px;font-family:monospace;font-size:13px;color:#e5e7eb;font-weight:600">Update_ModelState_Valid</td>
+              <td style="padding:12px 12px;font-size:13px;color:#9ca3af">ModelState is valid for Update</td>
+              <td style="padding:12px 12px;font-size:12px;color:#a78bfa;font-style:italic;max-width:300px;line-height:1.4">Kiểm tra xem dữ liệu submit lên Update có thỏa mãn các Validation Rules (Required, StringLength...) trước khi xử lý không.</td>
+              <td style="padding:12px 12px;text-align:center"><span style="color:#818cf8;font-size:11px;font-weight:700;letter-spacing:0.5px">UNIT</span></td>
+              <td style="padding:12px 12px;text-align:center"><span style="background:#1c1917;color:#a8a29e;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">⏳ PENDING</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:12px 12px;font-family:monospace;font-size:13px;color:#e5e7eb;font-weight:600">Update_HappyPath_ValidInput</td>
+              <td style="padding:12px 12px;font-size:13px;color:#9ca3af">Update processes valid input correctly</td>
+              <td style="padding:12px 12px;font-size:12px;color:#a78bfa;font-style:italic;max-width:300px;line-height:1.4">Happy Path (User Case): Giả lập người dùng nhập dữ liệu chuẩn xác, hệ thống tính toán và trả về kết quả hoặc giao diện đúng như mong đợi (VD: Cộng 1+1 phải ra 2).</td>
+              <td style="padding:12px 12px;text-align:center"><span style="color:#818cf8;font-size:11px;font-weight:700;letter-spacing:0.5px">UNIT</span></td>
+              <td style="padding:12px 12px;text-align:center"><span style="background:#1c1917;color:#a8a29e;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">⏳ PENDING</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:12px 12px;font-family:monospace;font-size:13px;color:#e5e7eb;font-weight:600">Update_BadPath_EdgeCaseData</td>
+              <td style="padding:12px 12px;font-size:13px;color:#9ca3af">Update handles edge-case / malformed data</td>
+              <td style="padding:12px 12px;font-size:12px;color:#a78bfa;font-style:italic;max-width:300px;line-height:1.4">Bad Path (User Case): Giả lập người dùng nhập chữ vào ô số, nhập số âm vào ô tiền, hoặc cố tình bỏ trống trường bắt buộc để xem hệ thống có bị hack/lỗi không.</td>
+              <td style="padding:12px 12px;text-align:center"><span style="color:#38bdf8;font-size:11px;font-weight:700;letter-spacing:0.5px">INTEGRATION</span></td>
+              <td style="padding:12px 12px;text-align:center"><span style="background:#1c1917;color:#a8a29e;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">⏳ PENDING</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:12px 12px;font-family:monospace;font-size:13px;color:#e5e7eb;font-weight:600">Delete_Returns_View</td>
+              <td style="padding:12px 12px;font-size:13px;color:#9ca3af">HttpPost /Delete returns a ViewResult</td>
+              <td style="padding:12px 12px;font-size:12px;color:#a78bfa;font-style:italic;max-width:300px;line-height:1.4">Đảm bảo Action Delete () phản hồi đúng giao diện cho người dùng thay vì lỗi 500 hoặc dữ liệu thô.</td>
+              <td style="padding:12px 12px;text-align:center"><span style="color:#818cf8;font-size:11px;font-weight:700;letter-spacing:0.5px">UNIT</span></td>
+              <td style="padding:12px 12px;text-align:center"><span style="background:#1c1917;color:#a8a29e;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">⏳ PENDING</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:12px 12px;font-family:monospace;font-size:13px;color:#e5e7eb;font-weight:600">Delete_ModelState_Valid</td>
+              <td style="padding:12px 12px;font-size:13px;color:#9ca3af">ModelState is valid for Delete</td>
+              <td style="padding:12px 12px;font-size:12px;color:#a78bfa;font-style:italic;max-width:300px;line-height:1.4">Kiểm tra xem dữ liệu submit lên Delete có thỏa mãn các Validation Rules (Required, StringLength...) trước khi xử lý không.</td>
+              <td style="padding:12px 12px;text-align:center"><span style="color:#818cf8;font-size:11px;font-weight:700;letter-spacing:0.5px">UNIT</span></td>
+              <td style="padding:12px 12px;text-align:center"><span style="background:#1c1917;color:#a8a29e;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">⏳ PENDING</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:12px 12px;font-family:monospace;font-size:13px;color:#e5e7eb;font-weight:600">Delete_HappyPath_ValidInput</td>
+              <td style="padding:12px 12px;font-size:13px;color:#9ca3af">Delete processes valid input correctly</td>
+              <td style="padding:12px 12px;font-size:12px;color:#a78bfa;font-style:italic;max-width:300px;line-height:1.4">Happy Path (User Case): Giả lập người dùng nhập dữ liệu chuẩn xác, hệ thống tính toán và trả về kết quả hoặc giao diện đúng như mong đợi (VD: Cộng 1+1 phải ra 2).</td>
+              <td style="padding:12px 12px;text-align:center"><span style="color:#818cf8;font-size:11px;font-weight:700;letter-spacing:0.5px">UNIT</span></td>
+              <td style="padding:12px 12px;text-align:center"><span style="background:#1c1917;color:#a8a29e;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">⏳ PENDING</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:12px 12px;font-family:monospace;font-size:13px;color:#e5e7eb;font-weight:600">Delete_BadPath_EdgeCaseData</td>
+              <td style="padding:12px 12px;font-size:13px;color:#9ca3af">Delete handles edge-case / malformed data</td>
+              <td style="padding:12px 12px;font-size:12px;color:#a78bfa;font-style:italic;max-width:300px;line-height:1.4">Bad Path (User Case): Giả lập người dùng nhập chữ vào ô số, nhập số âm vào ô tiền, hoặc cố tình bỏ trống trường bắt buộc để xem hệ thống có bị hack/lỗi không.</td>
+              <td style="padding:12px 12px;text-align:center"><span style="color:#38bdf8;font-size:11px;font-weight:700;letter-spacing:0.5px">INTEGRATION</span></td>
+              <td style="padding:12px 12px;text-align:center"><span style="background:#1c1917;color:#a8a29e;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">⏳ PENDING</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:12px 12px;font-family:monospace;font-size:13px;color:#e5e7eb;font-weight:600">Clear_Returns_View</td>
+              <td style="padding:12px 12px;font-size:13px;color:#9ca3af">HttpPost /Clear returns a ViewResult</td>
+              <td style="padding:12px 12px;font-size:12px;color:#a78bfa;font-style:italic;max-width:300px;line-height:1.4">Đảm bảo Action Clear () phản hồi đúng giao diện cho người dùng thay vì lỗi 500 hoặc dữ liệu thô.</td>
+              <td style="padding:12px 12px;text-align:center"><span style="color:#818cf8;font-size:11px;font-weight:700;letter-spacing:0.5px">UNIT</span></td>
+              <td style="padding:12px 12px;text-align:center"><span style="background:#1c1917;color:#a8a29e;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">⏳ PENDING</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:12px 12px;font-family:monospace;font-size:13px;color:#e5e7eb;font-weight:600">Clear_ModelState_Valid</td>
+              <td style="padding:12px 12px;font-size:13px;color:#9ca3af">ModelState is valid for Clear</td>
+              <td style="padding:12px 12px;font-size:12px;color:#a78bfa;font-style:italic;max-width:300px;line-height:1.4">Kiểm tra xem dữ liệu submit lên Clear có thỏa mãn các Validation Rules (Required, StringLength...) trước khi xử lý không.</td>
+              <td style="padding:12px 12px;text-align:center"><span style="color:#818cf8;font-size:11px;font-weight:700;letter-spacing:0.5px">UNIT</span></td>
+              <td style="padding:12px 12px;text-align:center"><span style="background:#1c1917;color:#a8a29e;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">⏳ PENDING</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:12px 12px;font-family:monospace;font-size:13px;color:#e5e7eb;font-weight:600">Clear_HappyPath_ValidInput</td>
+              <td style="padding:12px 12px;font-size:13px;color:#9ca3af">Clear processes valid input correctly</td>
+              <td style="padding:12px 12px;font-size:12px;color:#a78bfa;font-style:italic;max-width:300px;line-height:1.4">Happy Path (User Case): Giả lập người dùng nhập dữ liệu chuẩn xác, hệ thống tính toán và trả về kết quả hoặc giao diện đúng như mong đợi (VD: Cộng 1+1 phải ra 2).</td>
+              <td style="padding:12px 12px;text-align:center"><span style="color:#818cf8;font-size:11px;font-weight:700;letter-spacing:0.5px">UNIT</span></td>
+              <td style="padding:12px 12px;text-align:center"><span style="background:#1c1917;color:#a8a29e;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">⏳ PENDING</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:12px 12px;font-family:monospace;font-size:13px;color:#e5e7eb;font-weight:600">Clear_BadPath_EdgeCaseData</td>
+              <td style="padding:12px 12px;font-size:13px;color:#9ca3af">Clear handles edge-case / malformed data</td>
+              <td style="padding:12px 12px;font-size:12px;color:#a78bfa;font-style:italic;max-width:300px;line-height:1.4">Bad Path (User Case): Giả lập người dùng nhập chữ vào ô số, nhập số âm vào ô tiền, hoặc cố tình bỏ trống trường bắt buộc để xem hệ thống có bị hack/lỗi không.</td>
+              <td style="padding:12px 12px;text-align:center"><span style="color:#38bdf8;font-size:11px;font-weight:700;letter-spacing:0.5px">INTEGRATION</span></td>
+              <td style="padding:12px 12px;text-align:center"><span style="background:#1c1917;color:#a8a29e;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">⏳ PENDING</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:12px 12px;font-family:monospace;font-size:13px;color:#e5e7eb;font-weight:600">Program.cs_BraceBalance</td>
+              <td style="padding:12px 12px;font-size:13px;color:#9ca3af">Curly braces are balanced (compilation prerequisite)</td>
+              <td style="padding:12px 12px;font-size:12px;color:#a78bfa;font-style:italic;max-width:300px;line-height:1.4">Kiểm tra dấu ngoặc nhọn `{ }` trong code có mở/đóng đầy đủ hay không. Nếu thiếu, code sẽ không thể biên dịch.</td>
+              <td style="padding:12px 12px;text-align:center"><span style="color:#34d399;font-size:11px;font-weight:700;letter-spacing:0.5px">COMPATIBILITY</span></td>
+              <td style="padding:12px 12px;text-align:center"><span style="background:#14532d;color:#86efac;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">✅ PASS</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:12px 12px;font-family:monospace;font-size:13px;color:#e5e7eb;font-weight:600">Program.cs_HasNamespace</td>
+              <td style="padding:12px 12px;font-size:13px;color:#9ca3af">File declares a namespace</td>
+              <td style="padding:12px 12px;font-size:12px;color:#a78bfa;font-style:italic;max-width:300px;line-height:1.4">Đảm bảo file Program.cs có khai báo namespace hợp lệ (hoặc là Top-level script), tránh lỗi xung đột class khi .NET build project.</td>
+              <td style="padding:12px 12px;text-align:center"><span style="color:#fb923c;font-size:11px;font-weight:700;letter-spacing:0.5px">STRUCTURE</span></td>
+              <td style="padding:12px 12px;text-align:center"><span style="background:#14532d;color:#86efac;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">✅ PASS</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:12px 12px;font-family:monospace;font-size:13px;color:#e5e7eb;font-weight:600">HomeController.cs_BraceBalance</td>
+              <td style="padding:12px 12px;font-size:13px;color:#9ca3af">Curly braces are balanced (compilation prerequisite)</td>
+              <td style="padding:12px 12px;font-size:12px;color:#a78bfa;font-style:italic;max-width:300px;line-height:1.4">Kiểm tra dấu ngoặc nhọn `{ }` trong code có mở/đóng đầy đủ hay không. Nếu thiếu, code sẽ không thể biên dịch.</td>
+              <td style="padding:12px 12px;text-align:center"><span style="color:#34d399;font-size:11px;font-weight:700;letter-spacing:0.5px">COMPATIBILITY</span></td>
+              <td style="padding:12px 12px;text-align:center"><span style="background:#14532d;color:#86efac;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">✅ PASS</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:12px 12px;font-family:monospace;font-size:13px;color:#e5e7eb;font-weight:600">HomeController.cs_HasNamespace</td>
+              <td style="padding:12px 12px;font-size:13px;color:#9ca3af">File declares a namespace</td>
+              <td style="padding:12px 12px;font-size:12px;color:#a78bfa;font-style:italic;max-width:300px;line-height:1.4">Đảm bảo file HomeController.cs có khai báo namespace hợp lệ (hoặc là Top-level script), tránh lỗi xung đột class khi .NET build project.</td>
+              <td style="padding:12px 12px;text-align:center"><span style="color:#fb923c;font-size:11px;font-weight:700;letter-spacing:0.5px">STRUCTURE</span></td>
+              <td style="padding:12px 12px;text-align:center"><span style="background:#14532d;color:#86efac;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">✅ PASS</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:12px 12px;font-family:monospace;font-size:13px;color:#e5e7eb;font-weight:600">MigrationService.cs_BraceBalance</td>
+              <td style="padding:12px 12px;font-size:13px;color:#9ca3af">Curly braces are balanced (compilation prerequisite)</td>
+              <td style="padding:12px 12px;font-size:12px;color:#a78bfa;font-style:italic;max-width:300px;line-height:1.4">Kiểm tra dấu ngoặc nhọn `{ }` trong code có mở/đóng đầy đủ hay không. Nếu thiếu, code sẽ không thể biên dịch.</td>
+              <td style="padding:12px 12px;text-align:center"><span style="color:#34d399;font-size:11px;font-weight:700;letter-spacing:0.5px">COMPATIBILITY</span></td>
+              <td style="padding:12px 12px;text-align:center"><span style="background:#14532d;color:#86efac;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">✅ PASS</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:12px 12px;font-family:monospace;font-size:13px;color:#e5e7eb;font-weight:600">MigrationService.cs_HasNamespace</td>
+              <td style="padding:12px 12px;font-size:13px;color:#9ca3af">File declares a namespace</td>
+              <td style="padding:12px 12px;font-size:12px;color:#a78bfa;font-style:italic;max-width:300px;line-height:1.4">Đảm bảo file MigrationService.cs có khai báo namespace hợp lệ (hoặc là Top-level script), tránh lỗi xung đột class khi .NET build project.</td>
+              <td style="padding:12px 12px;text-align:center"><span style="color:#fb923c;font-size:11px;font-weight:700;letter-spacing:0.5px">STRUCTURE</span></td>
+              <td style="padding:12px 12px;text-align:center"><span style="background:#14532d;color:#86efac;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">✅ PASS</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:12px 12px;font-family:monospace;font-size:13px;color:#e5e7eb;font-weight:600">FRM_EMP.FRMController.cs_BraceBalance</td>
+              <td style="padding:12px 12px;font-size:13px;color:#9ca3af">Curly braces are balanced (compilation prerequisite)</td>
+              <td style="padding:12px 12px;font-size:12px;color:#a78bfa;font-style:italic;max-width:300px;line-height:1.4">Kiểm tra dấu ngoặc nhọn `{ }` trong code có mở/đóng đầy đủ hay không. Nếu thiếu, code sẽ không thể biên dịch.</td>
+              <td style="padding:12px 12px;text-align:center"><span style="color:#34d399;font-size:11px;font-weight:700;letter-spacing:0.5px">COMPATIBILITY</span></td>
+              <td style="padding:12px 12px;text-align:center"><span style="background:#14532d;color:#86efac;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">✅ PASS</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:12px 12px;font-family:monospace;font-size:13px;color:#e5e7eb;font-weight:600">FRM_EMP.FRMController.cs_HasNamespace</td>
+              <td style="padding:12px 12px;font-size:13px;color:#9ca3af">File declares a namespace</td>
+              <td style="padding:12px 12px;font-size:12px;color:#a78bfa;font-style:italic;max-width:300px;line-height:1.4">Đảm bảo file FRM_EMP.FRMController.cs có khai báo namespace hợp lệ (hoặc là Top-level script), tránh lỗi xung đột class khi .NET build project.</td>
+              <td style="padding:12px 12px;text-align:center"><span style="color:#fb923c;font-size:11px;font-weight:700;letter-spacing:0.5px">STRUCTURE</span></td>
+              <td style="padding:12px 12px;text-align:center"><span style="background:#14532d;color:#86efac;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">✅ PASS</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:12px 12px;font-family:monospace;font-size:13px;color:#e5e7eb;font-weight:600">FRM_EMP.FRMViewModel.cs_BraceBalance</td>
+              <td style="padding:12px 12px;font-size:13px;color:#9ca3af">Curly braces are balanced (compilation prerequisite)</td>
+              <td style="padding:12px 12px;font-size:12px;color:#a78bfa;font-style:italic;max-width:300px;line-height:1.4">Kiểm tra dấu ngoặc nhọn `{ }` trong code có mở/đóng đầy đủ hay không. Nếu thiếu, code sẽ không thể biên dịch.</td>
+              <td style="padding:12px 12px;text-align:center"><span style="color:#34d399;font-size:11px;font-weight:700;letter-spacing:0.5px">COMPATIBILITY</span></td>
+              <td style="padding:12px 12px;text-align:center"><span style="background:#14532d;color:#86efac;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">✅ PASS</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:12px 12px;font-family:monospace;font-size:13px;color:#e5e7eb;font-weight:600">FRM_EMP.FRMViewModel.cs_HasNamespace</td>
+              <td style="padding:12px 12px;font-size:13px;color:#9ca3af">File declares a namespace</td>
+              <td style="padding:12px 12px;font-size:12px;color:#a78bfa;font-style:italic;max-width:300px;line-height:1.4">Đảm bảo file FRM_EMP.FRMViewModel.cs có khai báo namespace hợp lệ (hoặc là Top-level script), tránh lỗi xung đột class khi .NET build project.</td>
+              <td style="padding:12px 12px;text-align:center"><span style="color:#fb923c;font-size:11px;font-weight:700;letter-spacing:0.5px">STRUCTURE</span></td>
+              <td style="padding:12px 12px;text-align:center"><span style="background:#14532d;color:#86efac;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">✅ PASS</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:12px 12px;font-family:monospace;font-size:13px;color:#e5e7eb;font-weight:600">FRM_EMP.FRMService.cs_BraceBalance</td>
+              <td style="padding:12px 12px;font-size:13px;color:#9ca3af">Curly braces are balanced (compilation prerequisite)</td>
+              <td style="padding:12px 12px;font-size:12px;color:#a78bfa;font-style:italic;max-width:300px;line-height:1.4">Kiểm tra dấu ngoặc nhọn `{ }` trong code có mở/đóng đầy đủ hay không. Nếu thiếu, code sẽ không thể biên dịch.</td>
+              <td style="padding:12px 12px;text-align:center"><span style="color:#34d399;font-size:11px;font-weight:700;letter-spacing:0.5px">COMPATIBILITY</span></td>
+              <td style="padding:12px 12px;text-align:center"><span style="background:#14532d;color:#86efac;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">✅ PASS</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:12px 12px;font-family:monospace;font-size:13px;color:#e5e7eb;font-weight:600">FRM_EMP.FRMService.cs_HasNamespace</td>
+              <td style="padding:12px 12px;font-size:13px;color:#9ca3af">File declares a namespace</td>
+              <td style="padding:12px 12px;font-size:12px;color:#a78bfa;font-style:italic;max-width:300px;line-height:1.4">Đảm bảo file FRM_EMP.FRMService.cs có khai báo namespace hợp lệ (hoặc là Top-level script), tránh lỗi xung đột class khi .NET build project.</td>
+              <td style="padding:12px 12px;text-align:center"><span style="color:#fb923c;font-size:11px;font-weight:700;letter-spacing:0.5px">STRUCTURE</span></td>
+              <td style="padding:12px 12px;text-align:center"><span style="background:#14532d;color:#86efac;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700">✅ PASS</span></td>
+            </tr></tbody>
+    </table>
+  </div>
+
+  <!-- .NET Compatibility -->
+  <div class="card" style="margin-bottom:24px">
+    <h2 style="margin-bottom:10px">.NET Compatibility
+      <span style="font-size:12px;font-weight:400;margin-left:10px">
+        <span style="color:#10b981">23 ok</span> ·
+        <span style="color:#ef4444">2 error</span> ·
+        <span style="color:#f59e0b">5 warning</span>
+      </span>
+    </h2>
+    <table>
+      <thead><tr>
+        <th>File</th>
+        <th>Check</th>
+        <th style="text-align:center;width:60px">Status</th>
+        <th>Detail</th>
+      </tr></thead>
+      <tbody>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:8px 12px;font-family:monospace;font-size:12px;color:#9ca3af">Program.cs</td>
+              <td style="padding:8px 12px;font-size:12px;color:#e5e7eb">Namespace declaration</td>
+              <td style="padding:8px 12px;text-align:center;font-size:14px">❌</td>
+              <td style="padding:8px 12px;font-size:11px;color:#6b7280"></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:8px 12px;font-family:monospace;font-size:12px;color:#9ca3af">Program.cs</td>
+              <td style="padding:8px 12px;font-size:12px;color:#e5e7eb">Class declaration</td>
+              <td style="padding:8px 12px;text-align:center;font-size:14px">❌</td>
+              <td style="padding:8px 12px;font-size:11px;color:#6b7280"></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:8px 12px;font-family:monospace;font-size:12px;color:#9ca3af">Program.cs</td>
+              <td style="padding:8px 12px;font-size:12px;color:#e5e7eb">Balanced braces</td>
+              <td style="padding:8px 12px;text-align:center;font-size:14px">✅</td>
+              <td style="padding:8px 12px;font-size:11px;color:#6b7280"></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:8px 12px;font-family:monospace;font-size:12px;color:#9ca3af">Program.cs</td>
+              <td style="padding:8px 12px;font-size:12px;color:#e5e7eb">MVC namespace imported</td>
+              <td style="padding:8px 12px;text-align:center;font-size:14px">⚠️</td>
+              <td style="padding:8px 12px;font-size:11px;color:#6b7280"></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:8px 12px;font-family:monospace;font-size:12px;color:#9ca3af">Program.cs</td>
+              <td style="padding:8px 12px;font-size:12px;color:#e5e7eb">No stub / TODO code</td>
+              <td style="padding:8px 12px;text-align:center;font-size:14px">✅</td>
+              <td style="padding:8px 12px;font-size:11px;color:#6b7280"></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:8px 12px;font-family:monospace;font-size:12px;color:#9ca3af">HomeController.cs</td>
+              <td style="padding:8px 12px;font-size:12px;color:#e5e7eb">Namespace declaration</td>
+              <td style="padding:8px 12px;text-align:center;font-size:14px">✅</td>
+              <td style="padding:8px 12px;font-size:11px;color:#6b7280"></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:8px 12px;font-family:monospace;font-size:12px;color:#9ca3af">HomeController.cs</td>
+              <td style="padding:8px 12px;font-size:12px;color:#e5e7eb">Class declaration</td>
+              <td style="padding:8px 12px;text-align:center;font-size:14px">✅</td>
+              <td style="padding:8px 12px;font-size:11px;color:#6b7280"></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:8px 12px;font-family:monospace;font-size:12px;color:#9ca3af">HomeController.cs</td>
+              <td style="padding:8px 12px;font-size:12px;color:#e5e7eb">Balanced braces</td>
+              <td style="padding:8px 12px;text-align:center;font-size:14px">✅</td>
+              <td style="padding:8px 12px;font-size:11px;color:#6b7280"></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:8px 12px;font-family:monospace;font-size:12px;color:#9ca3af">HomeController.cs</td>
+              <td style="padding:8px 12px;font-size:12px;color:#e5e7eb">MVC namespace imported</td>
+              <td style="padding:8px 12px;text-align:center;font-size:14px">✅</td>
+              <td style="padding:8px 12px;font-size:11px;color:#6b7280"></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:8px 12px;font-family:monospace;font-size:12px;color:#9ca3af">HomeController.cs</td>
+              <td style="padding:8px 12px;font-size:12px;color:#e5e7eb">No stub / TODO code</td>
+              <td style="padding:8px 12px;text-align:center;font-size:14px">✅</td>
+              <td style="padding:8px 12px;font-size:11px;color:#6b7280"></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:8px 12px;font-family:monospace;font-size:12px;color:#9ca3af">MigrationService.cs</td>
+              <td style="padding:8px 12px;font-size:12px;color:#e5e7eb">Namespace declaration</td>
+              <td style="padding:8px 12px;text-align:center;font-size:14px">✅</td>
+              <td style="padding:8px 12px;font-size:11px;color:#6b7280"></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:8px 12px;font-family:monospace;font-size:12px;color:#9ca3af">MigrationService.cs</td>
+              <td style="padding:8px 12px;font-size:12px;color:#e5e7eb">Class declaration</td>
+              <td style="padding:8px 12px;text-align:center;font-size:14px">✅</td>
+              <td style="padding:8px 12px;font-size:11px;color:#6b7280"></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:8px 12px;font-family:monospace;font-size:12px;color:#9ca3af">MigrationService.cs</td>
+              <td style="padding:8px 12px;font-size:12px;color:#e5e7eb">Balanced braces</td>
+              <td style="padding:8px 12px;text-align:center;font-size:14px">✅</td>
+              <td style="padding:8px 12px;font-size:11px;color:#6b7280"></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:8px 12px;font-family:monospace;font-size:12px;color:#9ca3af">MigrationService.cs</td>
+              <td style="padding:8px 12px;font-size:12px;color:#e5e7eb">MVC namespace imported</td>
+              <td style="padding:8px 12px;text-align:center;font-size:14px">⚠️</td>
+              <td style="padding:8px 12px;font-size:11px;color:#6b7280"></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:8px 12px;font-family:monospace;font-size:12px;color:#9ca3af">MigrationService.cs</td>
+              <td style="padding:8px 12px;font-size:12px;color:#e5e7eb">No stub / TODO code</td>
+              <td style="padding:8px 12px;text-align:center;font-size:14px">⚠️</td>
+              <td style="padding:8px 12px;font-size:11px;color:#6b7280"></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:8px 12px;font-family:monospace;font-size:12px;color:#9ca3af">FRM_EMP.FRMController.cs</td>
+              <td style="padding:8px 12px;font-size:12px;color:#e5e7eb">Namespace declaration</td>
+              <td style="padding:8px 12px;text-align:center;font-size:14px">✅</td>
+              <td style="padding:8px 12px;font-size:11px;color:#6b7280"></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:8px 12px;font-family:monospace;font-size:12px;color:#9ca3af">FRM_EMP.FRMController.cs</td>
+              <td style="padding:8px 12px;font-size:12px;color:#e5e7eb">Class declaration</td>
+              <td style="padding:8px 12px;text-align:center;font-size:14px">✅</td>
+              <td style="padding:8px 12px;font-size:11px;color:#6b7280"></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:8px 12px;font-family:monospace;font-size:12px;color:#9ca3af">FRM_EMP.FRMController.cs</td>
+              <td style="padding:8px 12px;font-size:12px;color:#e5e7eb">Balanced braces</td>
+              <td style="padding:8px 12px;text-align:center;font-size:14px">✅</td>
+              <td style="padding:8px 12px;font-size:11px;color:#6b7280"></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:8px 12px;font-family:monospace;font-size:12px;color:#9ca3af">FRM_EMP.FRMController.cs</td>
+              <td style="padding:8px 12px;font-size:12px;color:#e5e7eb">MVC namespace imported</td>
+              <td style="padding:8px 12px;text-align:center;font-size:14px">✅</td>
+              <td style="padding:8px 12px;font-size:11px;color:#6b7280"></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:8px 12px;font-family:monospace;font-size:12px;color:#9ca3af">FRM_EMP.FRMController.cs</td>
+              <td style="padding:8px 12px;font-size:12px;color:#e5e7eb">No stub / TODO code</td>
+              <td style="padding:8px 12px;text-align:center;font-size:14px">✅</td>
+              <td style="padding:8px 12px;font-size:11px;color:#6b7280"></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:8px 12px;font-family:monospace;font-size:12px;color:#9ca3af">FRM_EMP.FRMViewModel.cs</td>
+              <td style="padding:8px 12px;font-size:12px;color:#e5e7eb">Namespace declaration</td>
+              <td style="padding:8px 12px;text-align:center;font-size:14px">✅</td>
+              <td style="padding:8px 12px;font-size:11px;color:#6b7280"></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:8px 12px;font-family:monospace;font-size:12px;color:#9ca3af">FRM_EMP.FRMViewModel.cs</td>
+              <td style="padding:8px 12px;font-size:12px;color:#e5e7eb">Class declaration</td>
+              <td style="padding:8px 12px;text-align:center;font-size:14px">✅</td>
+              <td style="padding:8px 12px;font-size:11px;color:#6b7280"></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:8px 12px;font-family:monospace;font-size:12px;color:#9ca3af">FRM_EMP.FRMViewModel.cs</td>
+              <td style="padding:8px 12px;font-size:12px;color:#e5e7eb">Balanced braces</td>
+              <td style="padding:8px 12px;text-align:center;font-size:14px">✅</td>
+              <td style="padding:8px 12px;font-size:11px;color:#6b7280"></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:8px 12px;font-family:monospace;font-size:12px;color:#9ca3af">FRM_EMP.FRMViewModel.cs</td>
+              <td style="padding:8px 12px;font-size:12px;color:#e5e7eb">MVC namespace imported</td>
+              <td style="padding:8px 12px;text-align:center;font-size:14px">⚠️</td>
+              <td style="padding:8px 12px;font-size:11px;color:#6b7280"></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:8px 12px;font-family:monospace;font-size:12px;color:#9ca3af">FRM_EMP.FRMViewModel.cs</td>
+              <td style="padding:8px 12px;font-size:12px;color:#e5e7eb">No stub / TODO code</td>
+              <td style="padding:8px 12px;text-align:center;font-size:14px">✅</td>
+              <td style="padding:8px 12px;font-size:11px;color:#6b7280"></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:8px 12px;font-family:monospace;font-size:12px;color:#9ca3af">FRM_EMP.FRMService.cs</td>
+              <td style="padding:8px 12px;font-size:12px;color:#e5e7eb">Namespace declaration</td>
+              <td style="padding:8px 12px;text-align:center;font-size:14px">✅</td>
+              <td style="padding:8px 12px;font-size:11px;color:#6b7280"></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:8px 12px;font-family:monospace;font-size:12px;color:#9ca3af">FRM_EMP.FRMService.cs</td>
+              <td style="padding:8px 12px;font-size:12px;color:#e5e7eb">Class declaration</td>
+              <td style="padding:8px 12px;text-align:center;font-size:14px">✅</td>
+              <td style="padding:8px 12px;font-size:11px;color:#6b7280"></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:8px 12px;font-family:monospace;font-size:12px;color:#9ca3af">FRM_EMP.FRMService.cs</td>
+              <td style="padding:8px 12px;font-size:12px;color:#e5e7eb">Balanced braces</td>
+              <td style="padding:8px 12px;text-align:center;font-size:14px">✅</td>
+              <td style="padding:8px 12px;font-size:11px;color:#6b7280"></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:8px 12px;font-family:monospace;font-size:12px;color:#9ca3af">FRM_EMP.FRMService.cs</td>
+              <td style="padding:8px 12px;font-size:12px;color:#e5e7eb">MVC namespace imported</td>
+              <td style="padding:8px 12px;text-align:center;font-size:14px">⚠️</td>
+              <td style="padding:8px 12px;font-size:11px;color:#6b7280"></td>
+            </tr>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:8px 12px;font-family:monospace;font-size:12px;color:#9ca3af">FRM_EMP.FRMService.cs</td>
+              <td style="padding:8px 12px;font-size:12px;color:#e5e7eb">No stub / TODO code</td>
+              <td style="padding:8px 12px;text-align:center;font-size:14px">✅</td>
+              <td style="padding:8px 12px;font-size:11px;color:#6b7280"></td>
+            </tr></tbody>
+    </table>
+  </div>
+
+  <!-- Warnings -->
+  <div class="card">
+    <h2 style="margin-bottom:10px">Code Warnings
+      <span style="font-size:12px;font-weight:400;margin-left:10px;color:#6b7280">1 total</span>
+    </h2>
+    <table>
+      <thead><tr>
+        <th>File</th>
+        <th style="width:60px">Line</th>
+        <th style="width:100px">Type</th>
+        <th>Description</th>
+      </tr></thead>
+      <tbody>
+            <tr style="border-bottom:1px solid #1f2937">
+              <td style="padding:8px 12px;font-family:monospace;font-size:12px;color:#9ca3af">MigrationService.cs</td>
+              <td style="padding:8px 12px;text-align:center;color:#6b7280;font-size:12px">L23</td>
+              <td style="padding:8px 12px"><span style="background:#fbbf2422;color:#fbbf24;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600">TODO</span></td>
+              <td style="padding:8px 12px;font-size:12px;font-family:monospace;color:#d1d5db">// TODO: Implement actual interop or call to migrated C# module</td>
+            </tr></tbody>
+    </table>
+  </div>
+
+  <!-- QA Result section -->
+  <div class="card" style="margin-top:20px">
+    <h2>QA Agent Result</h2>
+    <div style="display:flex;gap:20px;margin-top:10px;flex-wrap:wrap">
+      <div>
+        <div style="font-size:11px;color:#6b7280;margin-bottom:4px">STATUS</div>
+        <span class="badge" style="background:#14532d;color:#86efac">
+          ✅ VALID
+        </span>
+      </div>
+      
+      
+    </div>
+  </div>
+
+</div>
+
+<script>
+const d = {"labels": ["Controller", "View", "ViewModel", "Interop"], "scores": [88, 28, 58, 78], "colors": ["#60a5fa", "#34d399", "#a78bfa", "#fbbf24"]};
+
+// Doughnut chart
+new Chart(document.getElementById('doughnut'), {
+  type: 'doughnut',
+  data: {
+    labels: d.labels,
+    datasets: [{ data: d.scores, backgroundColor: d.colors.map(c => c+'bb'), borderColor: d.colors, borderWidth: 2 }]
+  },
+  options: {
+    cutout: '72%', plugins: { legend: { display: false } },
+    animation: { animateRotate: true, duration: 1000 }
+  }
+});
+
+// Bar chart
+new Chart(document.getElementById('barChart'), {
+  type: 'bar',
+  data: {
+    labels: d.labels,
+    datasets: [{ data: d.scores, backgroundColor: d.colors.map(c=>c+'99'), borderColor: d.colors, borderWidth: 2, borderRadius: 6 }]
+  },
+  options: {
+    indexAxis: 'y',
+    scales: {
+      x: { min:0, max:100, grid:{ color:'#21262d' }, ticks:{ color:'#6b7280' } },
+      y: { grid:{ display:false }, ticks:{ color:'#9ca3af', font:{ weight:'600' } } }
+    },
+    plugins: { legend:{ display:false }, tooltip:{
+      callbacks:{ label: ctx => ` ${ctx.parsed.x}% confidence` }
+    } },
+    animation: { duration: 800 }
+  }
+});
+</script>
+</body>
+</html>

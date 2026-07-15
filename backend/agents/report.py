@@ -120,6 +120,33 @@ def _generate_tests(files: list[dict]) -> list[dict]:
                  "expl": f"Kiểm tra xem dữ liệu submit lên {action} có thỏa mãn các Validation Rules (Required, StringLength...) trước khi xử lý không.",
                  "kind": "unit", "pass": None},
             ]
+            
+            # ── Business Logic & User Case Paths ──
+            lower_action = action.lower()
+            if "divide" in lower_action or "chia" in lower_action:
+                tests.append({
+                    "name": f"{action}_DivideByZero_ThrowsOrHandled",
+                    "desc": f"Handles Divide-By-Zero gracefully in {action}",
+                    "expl": "Bad Path (User Case): Xử lý trường hợp người dùng cố tình nhập mẫu số bằng 0. Hệ thống không được văng lỗi hệ thống (crash) mà phải báo lỗi hợp lệ cho user.",
+                    "kind": "unit", "pass": None
+                })
+            
+            # Happy path (Luôn luôn có)
+            tests.append({
+                "name": f"{action}_HappyPath_ValidInput",
+                "desc": f"{action} processes valid input correctly",
+                "expl": f"Happy Path (User Case): Giả lập người dùng nhập dữ liệu chuẩn xác, hệ thống tính toán và trả về kết quả hoặc giao diện đúng như mong đợi (VD: Cộng 1+1 phải ra 2).",
+                "kind": "unit", "pass": None
+            })
+            
+            # Bad path chung cho dữ liệu POST/PUT (cố ý phá)
+            if http_method.lower() in ("httppost", "httpput"):
+                tests.append({
+                    "name": f"{action}_BadPath_EdgeCaseData",
+                    "desc": f"{action} handles edge-case / malformed data",
+                    "expl": f"Bad Path (User Case): Giả lập người dùng nhập chữ vào ô số, nhập số âm vào ô tiền, hoặc cố tình bỏ trống trường bắt buộc để xem hệ thống có bị hack/lỗi không.",
+                    "kind": "integration", "pass": None
+                })
 
     # Structural / compatibility tests
     for f in files:

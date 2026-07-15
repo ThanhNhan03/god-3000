@@ -1,0 +1,52 @@
+<!-- Index.cshtml -->
+@model cobolProjectMvc.Models.EmployeeViewModel
+
+<h1>Employee Management</h1>
+
+<form method="post" asp-action="Create">
+    <div>
+        <label for="EmpID">Employee ID:</label>
+        <input asp-for="EmpID" id="EmpID" />
+    </div>
+    <div>
+        <label for="EmpName">Name:</label>
+        <input asp-for="EmpName" id="EmpName" />
+    </div>
+    <div>
+        <label for="EmpDept">Department:</label>
+        <input asp-for="EmpDept" id="EmpDept" />
+    </div>
+    <div>
+        <label for="EmpSalary">Salary:</label>
+        <input asp-for="EmpSalary" id="EmpSalary" />
+    </div>
+    <div>
+        <label for="EmpStatus">Status (A/D):</label>
+        <input asp-for="EmpStatus" id="EmpStatus" />
+    </div>
+    <div>
+        <button type="submit">Create</button>
+    </div>
+</form>
+
+<form method="post" asp-action="Read">
+    <div>
+        <label for="EmpID">Employee ID to Read:</label>
+        <input name="id" id="EmpID" />
+    </div>
+    <button type="submit">Read</button>
+</form>
+
+<form method="post" asp-action="Update">
+    <div>
+        <label for="EmpID">Employee ID:</label>
+        <input asp-for="EmpID" id="EmpID" />
+    </div>
+    <button type="submit">Update</button>
+</form>
+
+<form method="post" asp-action="Delete">
+    <label for="EmpID">Employee ID to Delete:</label>
+    <input name="id" id="EmpID" />
+    <button type="submit">Delete</button>
+</form>

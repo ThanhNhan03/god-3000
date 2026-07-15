@@ -38,6 +38,8 @@ def _read_source_file(form_path: str) -> str:
         form_path,                                   # absolute path as-is
     ]
     for path in candidates:
+        if os.path.isdir(path):
+            return f"/* Project Folder: {os.path.basename(path)} */\n/* Contents are provided in the support files below */"
         if os.path.isfile(path):
             try:
                 with open(path, "r", encoding="utf-8", errors="replace") as f:
@@ -123,6 +125,11 @@ class Orchestrator:
             f"Discovery: {discovery_result['total']} module(s) total. "
             f"{pending} to convert, {skipped} already done."
         )
+        for mod in discovery_result.get("modules", []):
+            if os.path.isdir(mod.get("form", "")):
+                num_files = len(mod.get("support_files", []))
+                await self._info(f"📁 Quét thấy Folder Module '{mod['form_name']}' chứa tổng cộng {num_files} file con bên trong.")
+                
         if skipped_names:
             await self._info(f"⏭ Skipping already converted: {', '.join(skipped_names)}")
 
@@ -164,7 +171,7 @@ class Orchestrator:
                 "Create a DETAILED migration implementation plan in Markdown. "
                 "Include: "
                 "(1) Objective; "
-                "(2) Migration Scope with module list and complexity; "
+                "(2) Migration Scope with module list, complexity, AND if a module is a folder, explicitly state the total number of internal files/subfolders discovered to prove complete scanning; "
                 "(3) System Architecture overview (Discovery → NLP Planner → Conversion Agent → QA Validator → Report Generator); "
                 "(4) Orchestrator pipeline flow (step-by-step with ASCII diagram); "
                 "(5) Per-module Detailed Steps: Pre-migration analysis, Conversion, QA; "
@@ -212,13 +219,13 @@ class Orchestrator:
             source_code = _read_source_file(module_data["form"])
             source_preview = source_code[:3000] if source_code else "(source file not readable)"
 
-            # Read related COBOL files
+            # Read related COBOL/support files
             cobol_snippets = []
-            for cbl_path in module_data.get("cobol_programs", [])[:3]:
+            for cbl_path in module_data.get("support_files", [])[:25]:
                 cbl_content = _read_source_file(cbl_path)
                 if cbl_content:
                     cobol_snippets.append(
-                        f"--- {cbl_path} ---\n{cbl_content[:1500]}"
+                        f"--- {cbl_path} ---\n{cbl_content[:3000]}"
                     )
 
             # ── Conversion ────────────────────────────────────────────────
@@ -230,6 +237,11 @@ class Orchestrator:
             })
             await self._agent("conversion", "thinking", f"Converting {module_name} → C# .NET MVC...")
             await self._info(f"Conversion Agent thinking about migration plan for: {module_name}...")
+
+            await self._info(f"Conversion Agent thinking about migration plan for: {module_name}...")
+
+            # Pre-generate scaffold to determine the exact namespace to enforce
+            p_name, ns, scaffold_files = build_project_scaffold(module_name)
 
             qa_errors_context = ""
             json_data = None
@@ -270,13 +282,25 @@ Complexity Score: {module_data.get('complexity_score', 0.5)}
 Instructions:
 1. Carefully read the ACTUAL source code above — do not guess or assume.
 2. Think through the migration step by step.
-3. At the END of your response, output ALL generated files in a SINGLE ```json block:
+3. ABSOLUTELY DO NOT include legacy components, old .NET Framework namespaces, or direct VB/COBOL interop libraries. Generate ONLY 100% modern, pure C# ASP.NET Core MVC (.NET 8+) code.
+4. Verify your C# code for syntax completeness (all braces `{{}}` must balance and match).
+5. Ensure a full MVC separation of concerns. Generate Controllers, Services (if business logic is complex), Models/ViewModels, and Views.
+6. MANDATORY NAMESPACE: The exact C# namespace you MUST use across ALL files (including @model declarations in Views) is: `{ns}`. Do not use any other namespace.
+7. At the END of your response, output ALL generated files in a SINGLE ```json block:
 ```json
 {{
   "files": [
     {{
       "path": "Controllers/{module_name}Controller.cs",
-      "content": "// Full C# code here"
+      "content": "// Full C# Controller code here"
+    }},
+    {{
+      "path": "Models/{module_name}ViewModel.cs",
+      "content": "// Full C# Model/ViewModel code here"
+    }},
+    {{
+      "path": "Services/{module_name}Service.cs",
+      "content": "// Full C# Service code here (Optional, if business logic exists)"
     }},
     {{
       "path": "Views/{module_name}/Index.cshtml",
@@ -356,7 +380,10 @@ IMPORTANT: The ```json block MUST be the very last thing in your response.
                     })
                     qa_errors_context = "QA Errors:\n" + "\n".join(f"- {e}" for e in qa_result["errors"])
                     self.memories["qa"].append(f"QA failed for {module_name}: {errs}")
-                    json_data = None  # don't save bad files
+                    
+                    if attempt == MAX_QA_RETRIES:
+                        await self._info(f"⚠️ Reached max QA retries for {module_name}. Outputting generated files anyway despite errors.")
+                        # Do NOT set json_data = None; save what we have
 
             # ── Save valid files ──────────────────────────────────────────────
             if json_data is not None:
@@ -367,8 +394,7 @@ IMPORTANT: The ```json block MUST be the very last thing in your response.
                 output_dir = os.path.join(WORKSPACE_ROOT, "new", module_name)
                 os.makedirs(output_dir, exist_ok=True)
 
-                # Generate MVC Scaffold and merge LLM outputs
-                p_name, ns, scaffold_files = build_project_scaffold(module_name)
+                # Merge LLM outputs into the pre-generated scaffold
                 llm_files = json_data.get("files", [])
                 final_files = merge_llm_files(scaffold_files, llm_files, p_name, ns)
 

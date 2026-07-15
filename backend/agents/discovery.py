@@ -90,40 +90,49 @@ def _complexity(form_path: str, support_files: list[str]) -> float:
 def discover_modules(workspace_path: str = WORKSPACE_ROOT) -> dict:
     """
     Scan the entire workspace and return all modules that still need migration.
-
-    Return shape:
-    {
-        "modules": [
-            {
-                "form":             "source/frmInvoice.frm",
-                "form_name":        "frmInvoice.frm",
-                "support_files":    ["source/INVOICE.cbl"],
-                "complexity_score": 0.7,
-                "already_done":     False
-            },
-            ...
-        ],
-        "migration_order":  ["frmInvoice.frm", "nhan.cbi"],   # pending only
-        "skipped_modules":  [...],
-        "total":   N,
-        "pending": N,
-        "skipped": N,
-    }
+    Top-level directories inside source/ are treated as full project modules.
+    Loose files are treated as individual modules.
     """
-    primary_files, support_files = _scan_roots()
-
     modules = []
     seen_names = set()
+
+    # 1. Discover folder-level modules inside source/
+    if os.path.isdir(SOURCE_DIR):
+        for item in os.listdir(SOURCE_DIR):
+            item_path = os.path.join(SOURCE_DIR, item)
+            if os.path.isdir(item_path) and item not in IGNORE_DIRS:
+                form_name = item
+                support = []
+                for root, _, files in os.walk(item_path):
+                    for f in files:
+                        if not f.startswith(".") and os.path.splitext(f)[1].lower() not in IGNORE_EXTS:
+                            support.append(os.path.relpath(os.path.join(root, f), WORKSPACE_ROOT))
+                
+                modules.append({
+                    "form":             item_path,
+                    "form_name":        form_name,
+                    "support_files":    support,
+                    "complexity_score": 0.8,
+                    "already_done":     _already_converted(form_name)
+                })
+                seen_names.add(form_name)
+
+    # 2. Discover loose files
+    primary_files, support_files = _scan_roots()
+
     for form_path in sorted(primary_files):
         form_name = os.path.basename(form_path)
 
+        # Skip if it is already part of a folder-module
+        if any(os.path.abspath(form_path).startswith(os.path.abspath(m["form"])) for m in modules if os.path.isdir(m["form"])):
+            continue
+
         # Deduplicate: prefer source/ copy over workspace root copy
         if form_name in seen_names:
-            # Replace root-level entry with source/ entry if this one is in source/
             if SOURCE_DIR.replace(WORKSPACE_ROOT + os.sep, "") in form_path:
                 modules = [m for m in modules if m["form_name"] != form_name]
             else:
-                continue  # skip root-level duplicate if source/ already added
+                continue
         seen_names.add(form_name)
 
         stem  = os.path.splitext(form_name)[0].lower()

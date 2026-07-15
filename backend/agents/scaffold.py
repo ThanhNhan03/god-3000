@@ -12,21 +12,39 @@ import uuid
 import os
 
 
+import re
+
 def _project_name(module_name: str) -> str:
-    """Derive a clean C# project name from the module filename."""
+    """Derive a clean C# project name (PascalCase) from the module filename."""
     stem = os.path.splitext(module_name)[0]
-    # Strip common VB prefixes (frm, mdl, cls)
+    # Strip common VB prefixes (frm, mdl, cls, mod)
     for prefix in ("frm", "mdl", "cls", "mod"):
         if stem.lower().startswith(prefix):
             stem = stem[len(prefix):]
             break
-    # PascalCase first letter
-    stem = stem[0].upper() + stem[1:] if stem else "MigratedApp"
-    return f"{stem}Mvc"
+            
+    # Convert kebab-case, snake_case, dots, and spaces to camelCase
+    # e.g., 'cobol-sample-project' -> 'cobolSampleProject'
+    words = [w for w in re.split(r'[-_\s\.]+', stem) if w]
+    if not words:
+        return "migratedAppMvc"
+        
+    camel_stem = words[0].lower() + "".join(word.capitalize() for word in words[1:])
+    
+    # Ensure it starts with a letter
+    if not camel_stem[0].isalpha():
+        camel_stem = "app" + camel_stem
+        
+    return f"{camel_stem}Mvc"
 
 
 def _namespace(project_name: str) -> str:
-    return project_name.replace("-", "_").replace(" ", "_")
+    # Ensure strictly alphanumeric and valid for C# namespace
+    clean = re.sub(r'[^a-zA-Z0-9]', '', project_name)
+    if not clean or not clean[0].isalpha():
+        clean = "app" + clean
+    # First letter should be lowercase to maintain camelCase
+    return clean[0].lower() + clean[1:] if clean else "app"
 
 
 # ── File generators ───────────────────────────────────────────────────────────
@@ -193,6 +211,7 @@ def _layout(project_name: str) -> str:
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
+                    <!-- NAV_LINKS_PLACEHOLDER -->
                 </ul>
             </div>
         </div>
@@ -251,6 +270,9 @@ def _home_index(project_name: str) -> str:
     </p>
     <hr class="my-4" />
     <p>Use the navigation above to access migrated modules.</p>
+    <div class="mt-4">
+        <!-- HOME_LINKS_PLACEHOLDER -->
+    </div>
 </div>
 """
 
@@ -401,11 +423,41 @@ def merge_llm_files(
     p = project_name
     merged = list(scaffold_files)
 
+    # 1. Detect controllers to build dynamic UI links
+    import re
+    controllers = []
+    for f in llm_files:
+        path = f.get("path", "")
+        content = f.get("content", "")
+        if "controller" in path.lower() and path.endswith(".cs"):
+            m = re.search(r"class\s+(\w+)Controller", content)
+            if m and m.group(1) != "Home":
+                controllers.append(m.group(1))
+    
+    controllers = list(dict.fromkeys(controllers))
+    
+    nav_links = ""
+    home_links = ""
+    for c in controllers:
+        nav_links += f'                    <li class="nav-item"><a class="nav-link text-info" asp-controller="{c}" asp-action="Index">{c} Module</a></li>\n'
+        home_links += f'        <a href="/{c}" class="btn btn-primary btn-lg me-2 mt-2">Open {c} Module</a>\n'
+
+    # Inject links into scaffold layout
+    for i in range(len(merged)):
+        if "Views/Shared/_Layout.cshtml" in merged[i]["path"]:
+            merged[i]["content"] = merged[i]["content"].replace("<!-- NAV_LINKS_PLACEHOLDER -->", nav_links)
+        elif "Views/Home/Index.cshtml" in merged[i]["path"]:
+            merged[i]["content"] = merged[i]["content"].replace("<!-- HOME_LINKS_PLACEHOLDER -->", home_links)
+
+    # 2. Merge LLM files and unify namespaces
     for f in llm_files:
         orig_path = f.get("path", "")
         content   = f.get("content", "")
 
-        # Fix namespace placeholder
+        # Unify namespace dynamically using Regex
+        content = re.sub(r"namespace\s+[\w.]+", f"namespace {namespace}", content)
+
+        # Fix placeholder strings (just in case they are in using statements or comments)
         content = (content
             .replace("YourAppNamespace", namespace)
             .replace("YourApp",          namespace)
