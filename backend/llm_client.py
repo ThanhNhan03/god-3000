@@ -1,38 +1,121 @@
 import os
-from anthropic import AsyncAnthropic
-from dotenv import load_dotenv
+import re
+from typing import Optional
+from openai import AsyncOpenAI
 
-load_dotenv()
+# ─── API Keys ────────────────────────────────────────────────────────────────
+# ShopAIKey proxy (OpenAI-compatible)
+SHOPAI_KEY_1 = "sk-t0rIWPEGJ9HvAWlYQrKKQ9ZY4UxEjfRL9XtEEmZCaxB5V6bU"
+SHOPAI_KEY_2 = "sk-hlY7GTxBZZooeSqYFXOmJzpaaFgteLOWR6WWpUdYuK3hFBz1"
+SHOPAI_BASE_URL = "https://api.shopaikey.com/v1"
+SHOPAI_MODEL = "gpt-4o"
 
-# We can rotate between the two provided API keys or just use the first one
-API_KEY = os.getenv("ANTHROPIC_API_KEY_1")
+# Build list of clients
+def _make_client(api_key: str) -> AsyncOpenAI:
+    return AsyncOpenAI(api_key=api_key, base_url=SHOPAI_BASE_URL)
 
-# Initialize the async client
-client = AsyncAnthropic(api_key=API_KEY)
+CLIENTS = [_make_client(SHOPAI_KEY_1), _make_client(SHOPAI_KEY_2)]
 
-async def generate_response(prompt: str, system_prompt: str = ""):
-    """Helper function to call Anthropic API."""
-    response = await client.messages.create(
-        model="claude-3-5-sonnet-20241022",
-        max_tokens=4096,
-        system=system_prompt,
-        messages=[
-            {"role": "user", "content": prompt}
-        ]
+# ─── Fake Anthropic-style response wrapper ────────────────────────────────────
+class _Content:
+    def __init__(self, text: str):
+        self.text = text
+
+class _Response:
+    def __init__(self, text: str):
+        self.content = [_Content(text)]
+
+# ─── Non-streaming generate ───────────────────────────────────────────────────
+async def generate_response(prompt: str, system_prompt: str = "") -> _Response:
+    """Call the LLM and return a response. Falls back through all clients."""
+    errors = []
+    for client in CLIENTS:
+        try:
+            resp = await client.chat.completions.create(
+                model=SHOPAI_MODEL,
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user",   "content": prompt},
+                ],
+                max_tokens=4096,
+            )
+            return _Response(resp.choices[0].message.content or "")
+        except Exception as e:
+            errors.append(str(e))
+            continue
+
+    error_msg = "; ".join(errors)
+    return _Response(
+        f"**Fallback Plan generated (LLM Error):** {error_msg}\n\n- Migrate all identified modules sequentially."
     )
-    return response
 
+# ─── Streaming generate ───────────────────────────────────────────────────────
 async def stream_response(prompt: str, system_prompt: str = ""):
-    """Helper function to stream response from Anthropic API."""
-    stream = await client.messages.create(
-        model="claude-3-5-sonnet-20241022",
-        max_tokens=4096,
-        system=system_prompt,
-        messages=[
-            {"role": "user", "content": prompt}
-        ],
-        stream=True
-    )
-    async for event in stream:
-        if event.type == "content_block_delta":
-            yield event.delta.text
+    """
+    Async-generator that streams text chunks from the LLM.
+    Falls back through all configured clients.
+    Yields error message if every client fails.
+    """
+    errors = []
+    for client in CLIENTS:
+        try:
+            stream = await client.chat.completions.create(
+                model=SHOPAI_MODEL,
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user",   "content": prompt},
+                ],
+                max_tokens=4096,
+                stream=True,
+            )
+            # Must use `async for` because the streaming response is an async iterator
+            async for chunk in stream:
+                # Guard: final [DONE] chunk often has choices=[] — skip it
+                if not chunk.choices:
+                    continue
+                delta = chunk.choices[0].delta.content
+                if delta:
+                    yield delta
+            return  # success – stop trying other clients
+        except Exception as e:
+            errors.append(str(e))
+            continue
+
+    # All clients failed – yield a structured error so caller can detect it
+    error_msg = "; ".join(errors)
+    yield f"[STREAM_ERROR]: {error_msg}"
+
+# ─── Helper: robust JSON extractor ───────────────────────────────────────────
+def extract_json_from_text(text: str) -> Optional[dict]:
+    """
+    Try to extract a JSON object from a mixed text/code response.
+
+    Priority:
+      1. ```json … ``` fenced block
+      2. First outermost { … } braces (last resort)
+
+    Returns parsed dict or None on failure.
+    """
+    # 1. Fenced code block
+    m = re.search(r"```json\s*(.*?)\s*```", text, re.DOTALL)
+    if m:
+        try:
+            return _try_parse(m.group(1))
+        except Exception:
+            pass
+
+    # 2. Raw braces fallback
+    start = text.find("{")
+    end   = text.rfind("}")
+    if start != -1 and end != -1 and end > start:
+        try:
+            return _try_parse(text[start:end + 1])
+        except Exception:
+            pass
+
+    return None
+
+def _try_parse(s: str) -> dict:
+    """Strip BOM / leading whitespace then parse."""
+    s = s.strip().lstrip("\ufeff")
+    return __import__("json").loads(s)

@@ -17,14 +17,15 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
-@app.get("/")
-def read_root():
-    return {"status": "ok", "message": "Migration Harness API is running"}
-
-from routes import stream, ingest
+from fastapi.staticfiles import StaticFiles
+from routes import stream, ingest, workspace
 
 app.include_router(stream.router, prefix="/api/agent", tags=["agent"])
 app.include_router(ingest.router, prefix="/api/ingest", tags=["ingest"])
+app.include_router(workspace.router, prefix="/api/workspace", tags=["workspace"])
+
+# Serve frontend static files
+app.mount("/", StaticFiles(directory="../frontend", html=True), name="frontend")
 
 if __name__ == "__main__":
     import uvicorn
