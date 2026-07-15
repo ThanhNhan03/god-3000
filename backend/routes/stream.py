@@ -9,19 +9,41 @@ router = APIRouter()
 
 WORKSPACE_DIR = "/Users/lilnhan/Documents/GitHub/god-3000/workspace/source"
 
-# Global active orchestrator (for demo purposes)
+# Global active orchestrator and its task (for demo purposes)
 active_orchestrator = None
+active_task = None
+
+from backend.llm_client import set_api_key, test_api_key
+
+class TestKeyReq(BaseModel):
+    api_key: str
+
+@router.post("/test-key")
+async def test_key_endpoint(req: TestKeyReq):
+    success = await test_api_key(req.api_key)
+    return {"success": success}
 
 @router.get("/stream")
-async def stream_agent(prompt: str = ""):
+async def stream_agent(prompt: str = "", api_key: str = ""):
     """
     SSE endpoint for streaming orchestrator events.
     """
-    global active_orchestrator
+    global active_orchestrator, active_task
+    
+    if api_key:
+        set_api_key(api_key)
+    
+    if active_task and not active_task.done():
+        active_task.cancel()
+        try:
+            await active_task
+        except asyncio.CancelledError:
+            pass
+
     active_orchestrator = Orchestrator(WORKSPACE_DIR, user_prompt=prompt)
     
     # Start the orchestrator run in the background
-    asyncio.create_task(active_orchestrator.run())
+    active_task = asyncio.create_task(active_orchestrator.run())
 
     async def event_generator():
         while True:

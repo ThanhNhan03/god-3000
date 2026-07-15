@@ -222,6 +222,8 @@ function App() {
   const [agentStates,  setAgentStates]  = useState(
     Object.fromEntries(PIPELINE.map(a => [a.id, { status: 'idle', thought: '' }]))
   );
+  const [apiKey,       setApiKey]       = useState('');
+  const [testKeyStatus, setTestKeyStatus] = useState('idle');
   const chatEndRef        = useRef(null);
   const thinkingBufferRef = useRef('');        // Silent accumulator — no re-renders per char
   const detectedStepsRef  = useRef(new Set()); // Track which steps already shown
@@ -233,6 +235,22 @@ function App() {
       setFileTree(await res.json());
     } catch (e) { console.error(e); }
   }, []);
+
+  const handleTestKey = async () => {
+    if (!apiKey) return;
+    setTestKeyStatus('testing');
+    try {
+      const res = await fetch('/api/agent/test-key', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ api_key: apiKey }),
+      });
+      const data = await res.json();
+      setTestKeyStatus(data.success ? 'ok' : 'error');
+    } catch {
+      setTestKeyStatus('error');
+    }
+  };
 
   useEffect(() => { loadWorkspace(); }, [loadWorkspace]);
   useEffect(() => { chatEndRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages]);
@@ -247,7 +265,7 @@ function App() {
 
     setMessages(prev => [...prev, { sender: 'user', text: promptText }]);
 
-    const source = new EventSource(`/api/agent/stream?prompt=${encodeURIComponent(promptText)}`);
+    const source = new EventSource(`/api/agent/stream?prompt=${encodeURIComponent(promptText)}&api_key=${encodeURIComponent(apiKey)}`);
     setStreamSource(source);
 
     source.onmessage = (e) => {
@@ -716,10 +734,41 @@ function App() {
           {/* Header */}
           <div style={{
             height: 40, background: '#161b22', borderBottom: '1px solid #21262d',
-            display: 'flex', alignItems: 'center', padding: '0 14px', flexShrink: 0,
+            display: 'flex', alignItems: 'center', padding: '0 14px', flexShrink: 0, justifyContent: 'space-between',
           }}>
-            <Wand2 size={15} style={{ color: '#a78bfa', marginRight: 7, animation: 'pulse 2s infinite' }} />
-            <span style={{ fontWeight: 600, fontSize: 13 }}>Agent Chat</span>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <Wand2 size={15} style={{ color: '#a78bfa', marginRight: 7, animation: 'pulse 2s infinite' }} />
+              <span style={{ fontWeight: 600, fontSize: 13 }}>Agent Chat</span>
+            </div>
+            
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <input 
+                type="password"
+                placeholder="ShopAI API Key..."
+                value={apiKey}
+                onChange={e => { setApiKey(e.target.value); setTestKeyStatus('idle'); }}
+                style={{
+                  width: 150, background: '#0d1117', border: '1px solid #30363d',
+                  borderRadius: 6, padding: '4px 8px', fontSize: 11,
+                  color: '#e6edf3', outline: 'none', transition: 'border-color 0.15s'
+                }}
+                onFocus={e => e.target.style.borderColor = '#4b5563'}
+                onBlur={e => e.target.style.borderColor = '#30363d'}
+              />
+              <button 
+                onClick={handleTestKey}
+                disabled={testKeyStatus === 'testing' || !apiKey}
+                style={{
+                  background: testKeyStatus === 'ok' ? '#059669' : testKeyStatus === 'error' ? '#dc2626' : '#2563eb',
+                  color: '#fff', border: 'none', borderRadius: 6, padding: '4px 10px', fontSize: 11,
+                  cursor: testKeyStatus === 'testing' || !apiKey ? 'not-allowed' : 'pointer',
+                  opacity: testKeyStatus === 'testing' || !apiKey ? 0.6 : 1,
+                  transition: 'background 0.2s', fontWeight: 600
+                }}
+              >
+                {testKeyStatus === 'testing' ? '...' : testKeyStatus === 'ok' ? 'OK' : testKeyStatus === 'error' ? 'Fail' : 'Test'}
+              </button>
+            </div>
           </div>
 
           {/* Upload + Clear buttons */}

@@ -5,8 +5,8 @@ from openai import AsyncOpenAI
 
 # ─── API Keys ────────────────────────────────────────────────────────────────
 # ShopAIKey proxy (OpenAI-compatible)
-SHOPAI_KEY_1 = "sk-t0rIWPEGJ9HvAWlYQrKKQ9ZY4UxEjfRL9XtEEmZCaxB5V6bU"
-SHOPAI_KEY_2 = "sk-hlY7GTxBZZooeSqYFXOmJzpaaFgteLOWR6WWpUdYuK3hFBz1"
+SHOPAI_KEY_1 = ""
+SHOPAI_KEY_2 = ""
 SHOPAI_BASE_URL = "https://api.shopaikey.com/v1"
 SHOPAI_MODEL = "gpt-4o"
 
@@ -14,7 +14,26 @@ SHOPAI_MODEL = "gpt-4o"
 def _make_client(api_key: str) -> AsyncOpenAI:
     return AsyncOpenAI(api_key=api_key, base_url=SHOPAI_BASE_URL)
 
-CLIENTS = [_make_client(SHOPAI_KEY_1), _make_client(SHOPAI_KEY_2)]
+CLIENTS = []
+if SHOPAI_KEY_1: CLIENTS.append(_make_client(SHOPAI_KEY_1))
+if SHOPAI_KEY_2: CLIENTS.append(_make_client(SHOPAI_KEY_2))
+
+def set_api_key(key: str):
+    global CLIENTS
+    if key:
+        CLIENTS = [_make_client(key)]
+
+async def test_api_key(key: str) -> bool:
+    try:
+        client = _make_client(key)
+        await client.chat.completions.create(
+            model=SHOPAI_MODEL,
+            messages=[{"role": "user", "content": "hi"}],
+            max_tokens=5,
+        )
+        return True
+    except Exception:
+        return False
 
 # ─── Fake Anthropic-style response wrapper ────────────────────────────────────
 class _Content:

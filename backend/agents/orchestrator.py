@@ -285,7 +285,14 @@ Instructions:
 3. ABSOLUTELY DO NOT include legacy components, old .NET Framework namespaces, or direct VB/COBOL interop libraries. Generate ONLY 100% modern, pure C# ASP.NET Core MVC (.NET 8+) code.
 4. Verify your C# code for syntax completeness (all braces `{{}}` must balance and match).
 5. Ensure a full MVC separation of concerns. Generate Controllers, Services (if business logic is complex), Models/ViewModels, and Views.
-6. MANDATORY NAMESPACE: The exact C# namespace you MUST use across ALL files (including @model declarations in Views) is: `{ns}`. Do not use any other namespace.
+6. MANDATORY NAMESPACE & USINGS: 
+   - The exact C# base namespace you MUST use is: `{ns}`.
+   - Controllers must be in `namespace {ns}.Controllers`.
+   - Models must be in `namespace {ns}.Models`.
+   - Services must be in `namespace {ns}.Services`.
+   - You MUST explicitly add `using {ns}.Models;` at the top of your Controllers and Services files. 
+   - Views must use `@model {ns}.Models.[YourViewModel]`.
+   - Maintain exact camelCase for C# naming. Do NOT use `_` or PascalCase for namespaces or class names.
 7. At the END of your response, output ALL generated files in a SINGLE ```json block:
 ```json
 {{
@@ -331,7 +338,7 @@ IMPORTANT: The ```json block MUST be the very last thing in your response.
                     await self._agent("conversion", "error",
                                       f"Stream failed: {stream_error[:80]}")
                     await self._info(f"⚠️ LLM streaming failed for {module_name}: {stream_error}")
-                    break
+                    continue  # continue to next attempt instead of breaking the entire retry loop
 
                 # Extract JSON
                 json_data = extract_json_from_text(full_response)
