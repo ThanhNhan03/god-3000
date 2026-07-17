@@ -1,5 +1,10 @@
 # backend/server.py
 import os
+import sys
+# Add parent directory of 'backend' to sys.path so we can import 'backend.samples' etc.
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+
 import json
 import asyncio
 from fastapi import FastAPI, Response, Request

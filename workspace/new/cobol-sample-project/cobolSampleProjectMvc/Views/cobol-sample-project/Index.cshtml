@@ -1,0 +1,49 @@
+@model cobolSampleProjectMvc.Models.CobolCalculationViewModel
+
+<h1>COBOL Calculator</h1>
+
+@if (TempData["message"] != null)
+{
+    <p class="alert alert-info">@TempData["message"]</p>
+}
+
+<form asp-action="PerformCalculation" method="post">
+    <div>
+        <label for="FirstNumber">First Number:</label>
+        <input asp-for="FirstNumber" id="FirstNumber" type="number" step="any" required />
+        <span asp-validation-for="FirstNumber" class="text-danger"></span>
+    </div>
+    <div>
+        <label for="SecondNumber">Second Number:</label>
+        <input asp-for="SecondNumber" id="SecondNumber" type="number" step="any" required />
+        <span asp-validation-for="SecondNumber" class="text-danger"></span>
+    </div>
+    <div>
+        <label for="Operation">Choose Operation:</label>
+        <select asp-for="Operation" id="Operation">
+            <option value="Add">Add</option>
+            <option value="Subtract">Subtract</option>
+            <option value="Multiply">Multiply</option>
+            <option value="Divide">Divide</option>
+        </select>
+    </div>
+    <button type="submit">Calculate</button>
+</form>
+
+@if (Model?.Result != null)
+{
+    <h3>Result: @Model.Result</h3>
+}
+
+<form asp-action="SayHello" method="post">
+    <div>
+        <label for="clientName">Enter your name:</label>
+        <input type="text" id="clientName" name="clientName" required />
+    </div>
+    <button type="submit">Say Hello</button>
+</form>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate-unobtrusive/3.2.0/jquery.validate.unobtrusive.min.js"></script>
+}

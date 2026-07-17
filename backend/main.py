@@ -1,4 +1,9 @@
 import os
+import sys
+# Add parent directory of 'backend' to sys.path so we can import 'backend.llm_client' etc.
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
